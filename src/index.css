@@ -591,6 +591,100 @@ body {
 }
 
 /* Mobile Responsive */
+.mobile-label {
+  display: none;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-right: 8px;
+  min-width: 60px;
+}
+
+/* Remove spin buttons from number inputs */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* Desktop: Hide mobile delete button */
+.btn-delete-mobile {
+  display: none;
+}
+
+.product-header-mobile {
+  width: 100%;
+}
+
+/* Desktop Stepper Styles */
+@media (min-width: 769px) {
+  .stepper-wrapper {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    border: 1px solid transparent;
+    /* Hidden by default */
+    padding: 0;
+    transition: var(--transition);
+  }
+
+  /* Show controls on hover */
+  .stepper-wrapper:hover {
+    border-color: var(--border);
+    background: var(--bg-hover);
+    border-radius: 6px;
+  }
+
+  .btn-stepper {
+    width: 24px;
+    height: 24px;
+    font-size: 1rem;
+    padding: 0;
+    opacity: 0;
+    /* Hidden by default */
+    transition: opacity 0.2s;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .stepper-wrapper:hover .btn-stepper {
+    opacity: 1;
+    /* Show on hover */
+  }
+
+  .btn-stepper:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+  }
+
+  .stepper-input-container {
+    border: none;
+    padding: 0;
+    min-width: unset;
+    display: flex;
+    align-items: center;
+  }
+
+  .stepper-input {
+    width: 50px;
+    text-align: right;
+    padding: 4px 8px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 0 16px;
@@ -629,43 +723,409 @@ body {
     font-size: 1.125rem;
   }
 
-  /* Mobile table */
+  /* Mobile Table to Card Layout */
   .table-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    background: transparent;
+    border: none;
+    overflow: visible;
   }
 
-  .table {
-    min-width: 600px;
+  .table thead {
+    display: none;
   }
 
-  .table th,
+  .table,
+  .table tbody,
+  .table tr,
   .table td {
-    padding: 10px 12px;
+    display: block;
+    width: 100%;
+  }
+
+  .table tr {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    padding: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .table td {
+    padding: 0;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Product name & comment - Full Width */
+  /* Product name & comment - Full Width */
+  .table td:first-child {
+    grid-column: 1 / -1;
+    margin-bottom: 4px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    padding-right: 0;
+  }
+
+  .product-header-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* Ensure input takes available space but leaves room for button */
+  .product-header-mobile .product-name {
+    flex: 1;
+    min-width: 0;
+    /* Important for flex items text overflow */
+    width: 100%;
+  }
+
+  /* Mobile specific delete button styling */
+  .btn-delete-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(255, 69, 58, 0.05);
+    color: var(--text-muted);
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .btn-delete-mobile:hover {
+    background: rgba(255, 69, 58, 0.15);
+    color: var(--danger);
+  }
+
+  /* Qty Cell */
+  .table td:nth-child(2) {
+    justify-content: flex-start;
+  }
+
+  .table td {
+    margin-bottom: 4px;
+  }
+
+  .mobile-label {
+    display: block;
+  }
+
+  .value-input {
+    text-align: right;
+    width: 60px;
+  }
+
+  .product-name {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .product-comment {
+    font-size: 0.8125rem;
+  }
+
+  /* Hide original delete button container on mobile */
+  .action-cell {
+    display: none !important;
   }
 
   .btn-delete {
     opacity: 1;
+    /* Always visible on mobile */
+    padding: 12px;
+    /* Larger hit area */
+    color: var(--text-muted);
+    background: rgba(255, 69, 58, 0.05);
+    /* Subtle background */
+    border-radius: 50%;
   }
-}
 
-@media (max-width: 480px) {
-  .summary-grid {
-    grid-template-columns: 1fr 1fr;
+  /* Value Cells Alignment */
+  .value-cell.right-align {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* Ensure full width in flex container */
+  }
+
+  .stepper-group,
+  .input-with-suffix {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    /* Push to right */
     gap: 8px;
   }
 
-  .summary-card {
-    padding: 12px;
+  /* Refined Stepper for Mobile */
+  .stepper-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2px;
+    /* Tighter padding */
   }
 
-  .summary-value {
+  .btn-stepper {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    width: 32px;
+    /* Larger touch target */
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1.25rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: var(--transition);
   }
 
-  .summary-label {
-    font-size: 0.6875rem;
+  .btn-stepper:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
   }
+
+  .stepper-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    padding: 0 4px;
+    min-width: 60px;
+  }
+
+  .stepper-input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    text-align: center;
+    width: 40px;
+    padding: 4px 0;
+    font-family: inherit;
+    appearance: textfield;
+  }
+
+  .stepper-input::-webkit-outer-spin-button,
+  .stepper-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .stepper-unit {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: 2px;
+  }
+
+  /* Override unit select for stepper */
+  .stepper-group .unit-select {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 6px;
+    margin-left: 0;
+  }
+
+  @media (max-width: 480px) {
+    .summary-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .summary-card {
+      padding: 12px;
+    }
+
+    .summary-value {
+      font-size: 1.25rem;
+    }
+
+    .summary-label {
+      font-size: 0.6875rem;
+    }
+  }
+
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: var(--transition);
+}
+
+.btn-close:hover {
+  color: var(--text-primary);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--bg-hover);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+}
+
+.input-with-unit {
+  display: flex;
+  gap: 8px;
+}
+
+.input-with-unit .unit-select {
+  margin-left: 0;
+  flex-shrink: 0;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.btn-cancel {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-cancel:hover {
+  background: var(--bg-hover);
+}
+
+.btn-submit {
+  flex: 2;
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-submit:hover {
+  background: var(--accent-hover);
 }
 
 /* Print */

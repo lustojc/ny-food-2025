@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/ny-food-plan/'
+  base: '/ny-food-2025/'
 })
