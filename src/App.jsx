@@ -237,8 +237,21 @@ function EditableRow({ item, dataKey, showLiters, onUpdate, onRemove }) {
   const handleChange = (field, value, commit = false) => {
     const updated = { ...localItem, [field]: value }
 
-    // Safely calculate total even if value is empty string
-    if (field === 'qty' || field === 'price') {
+    // Logic for updating totals and liters
+    if (field === 'qty') {
+      const qty = updated.qty === '' ? 0 : updated.qty
+      const price = updated.price === '' ? 0 : updated.price
+
+      // Calculate new total
+      updated.total = Number((qty * price).toFixed(2))
+
+      // Update liters if applicable (only if showLiters is true for this row context)
+      // We can check if 'liters' property exists and current qty > 0 to establish a ratio
+      if (showLiters && localItem.qty > 0 && localItem.liters !== undefined) {
+        const ratio = localItem.liters / localItem.qty
+        updated.liters = Number((qty * ratio).toFixed(2))
+      }
+    } else if (field === 'price') {
       const qty = updated.qty === '' ? 0 : updated.qty
       const price = updated.price === '' ? 0 : updated.price
       updated.total = Number((qty * price).toFixed(2))
